@@ -1,5 +1,5 @@
-import { useStore } from './store';
-import Button from './components/Button';
+import { useStore } from "./store";
+import Button from "./components/Button";
 
 export const SubmitButton = () => {
     const { nodes, edges } = useStore((state) => ({
@@ -7,32 +7,34 @@ export const SubmitButton = () => {
         edges: state.edges,
     }));
     const handleSubmit = async () => {
-        
-        console.log('Nodes:', nodes);
-        console.log('Edges:', edges);
+        console.log("Nodes:", nodes);
+        console.log("Edges:", edges);
         const payload = {
             nodes,
             edges,
         };
         try {
-            const response = await fetch(`http://127.0.0.1:8000/pipelines/parse`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
+            const response = await fetch(
+                `https://agentic-ai-ui.vercel.app/pipelines/parse`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 },
-                body: JSON.stringify(payload),
-            });
+            );
 
             if (response.ok) {
                 const result = await response.json();
-                console.log('Server response:', result);
+                console.log("Server response:", result);
                 useStore.getState().setResponse(result);
                 useStore.getState().setShowResponse(true);
             } else {
-                console.error('Error from server:', response.statusText);
+                console.error("Error from server:", response.statusText);
             }
         } catch (error) {
-            console.error('Error sending payload:', error);
+            console.error("Error sending payload:", error);
         }
     };
     const handleSaveLocally = () => {
@@ -40,8 +42,8 @@ export const SubmitButton = () => {
             nodes,
             edges,
         };
-        localStorage.setItem('pipelineData', JSON.stringify(payload));
-        alert('Pipeline data saved locally!');
+        localStorage.setItem("pipelineData", JSON.stringify(payload));
+        alert("Pipeline data saved locally!");
     };
 
     return (
@@ -52,9 +54,15 @@ export const SubmitButton = () => {
             <Button variant="outline" onClick={handleSaveLocally}>
                 Save Locally
             </Button>
-            <Button variant="negative" onClick={() => {localStorage.removeItem('pipelineData');window.location.reload();}}>
+            <Button
+                variant="negative"
+                onClick={() => {
+                    localStorage.removeItem("pipelineData");
+                    window.location.reload();
+                }}
+            >
                 Delete Local Data
             </Button>
         </div>
     );
-}
+};
