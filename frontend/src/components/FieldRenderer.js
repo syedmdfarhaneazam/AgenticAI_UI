@@ -24,7 +24,6 @@ const FieldRenderer = ({ field, value, onChange, nodeId }) => {
     const sqlInjectionPatterns = [
       /(\b(UNION|SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|EXECUTE|SCRIPT)\b)/gi,
       /(-{2}|\/\*|\*\/|;)/,
-      /(\'\'|\"\")/,
       /['"]/
     ];
     return sqlInjectionPatterns.some(pattern => pattern.test(input));
@@ -244,7 +243,7 @@ const FieldRenderer = ({ field, value, onChange, nodeId }) => {
             type="checkbox"
             checked={value || false}
             onChange={(e) => onChange(e.target.checked)}
-            className="appearance-none w-4 h-4 bg-secondary border border-muted rounded checked:bg-accent checked:border-accent relative checked:after:absolute checked:after:top-0.5 checked:after:left-0.5 checked:after:content-['\2713'] checked:after:text-textPrimary checked:after:text-xs focus:outline-none cursor-pointer ml-1"
+            className="appearance-none w-4 h-4 bg-secondary border border-muted rounded checked:bg-accent checked:border-accent relative checked:after:absolute checked:after:top-0.5 checked:after:left-0.5 checked:after:content-['\u2713'] checked:after:text-textPrimary checked:after:text-xs focus:outline-none cursor-pointer ml-1"
           />
         </div>
       );
